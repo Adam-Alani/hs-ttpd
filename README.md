@@ -1,2 +1,2 @@
 # hs-ttpd
-Basic haskell HTTP server 
+maybe haskell isnt that boring
