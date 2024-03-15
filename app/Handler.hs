@@ -16,8 +16,6 @@ runServer serveraddr = do
   sock <- socket (addrFamily serveraddr) Stream defaultProtocol
   bind sock (addrAddress serveraddr)
   listen sock 5
-
-  putStrLn "Listening on port 3000"
   acceptLoop sock
 
 acceptLoop :: Socket -> IO ()

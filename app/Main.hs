@@ -16,4 +16,6 @@ main = withSocketsDo $ do
 
   case addrinfos of
     [] -> error "No address info, please try again."
-    (serveraddr : _) -> runServer serveraddr
+    (serveraddr : _) -> do
+      putStrLn $ "Listening on port " ++ parsedPort
+      runServer serveraddr
