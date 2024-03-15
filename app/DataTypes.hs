@@ -29,16 +29,17 @@ instance Show StatusCode where
 serialize :: String -> Maybe Request
 serialize requestStr = do
   (headerLines, bodyLines) <- splitAtHeaderAndBody requestStr
-  let maybeHeaders = map parseHeader headerLines
-  case sequence maybeHeaders of
-    Nothing -> Nothing
-    Just parsedHeaders -> do
-      let headers' = parsedHeaders
-      let methodLine = head headerLines
+  headers' <- mapM parseHeader headerLines
+  case headerLines of
+    [] -> Nothing
+    (methodLine : _) -> do
       let method' = takeWhile (/= ' ') methodLine
-      let pathLine = words methodLine !! 1
-      let path' = takeWhile (/= ' ') pathLine
-      return Request {method = method', path = path', headers = headers', body = unlines bodyLines}
+      case words methodLine of
+        [] -> Nothing
+        [_] -> Nothing
+        (_ : pathLine : _) -> do
+          let path' = takeWhile (/= ' ') pathLine
+          return Request {method = method', path = path', headers = headers', body = unlines bodyLines}
 
 -- | Splits a request string into a header and a body.
 splitAtHeaderAndBody :: String -> Maybe ([String], [String])
