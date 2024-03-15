@@ -18,7 +18,7 @@ data Response = Response
 instance Show Response where
   show r = "HTTP/1.1 " ++ show (status r) ++ "\r\n\r\n" ++ fromMaybe "" (resp_body r)
 
-data StatusCode = OK | NotFound | InternalServerError | UnknownStatusCode Int
+data StatusCode = OK | NotFound | InternalServerError | UnknownStatusCode !Int
 
 instance Show StatusCode where
   show OK = "200 OK"
